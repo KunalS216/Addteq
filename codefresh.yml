@@ -24,7 +24,7 @@ steps:
     stage: build
     image_name: addteq-apac
     working_directory: ./
-    tag: '${{CF_BUILD_TIMESTAMP}}'
+    tag: 'latest'
     dockerfile: Dockerfile
   run_integration_tests:
     title: Integration test
