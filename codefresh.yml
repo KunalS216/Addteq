@@ -22,7 +22,7 @@ steps:
     title: Building Docker Image
     type: build
     stage: build
-    image_name: docker
+    image_name: addteq-apac
     working_directory: ./
     tag: 'latest'
     dockerfile: Dockerfile
