@@ -22,9 +22,9 @@ steps:
     title: Building Docker Image
     type: build
     stage: build
-    image_name: addteq-apac
+    image_name: addteq-apac/addteq-apac
     working_directory: ./
-    tag: '1'
+    tag: '${{CF_BUILD_TIMESTAMP}}'
     dockerfile: Dockerfile
   run_integration_tests:
     title: Integration test
