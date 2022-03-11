@@ -1,17 +1,30 @@
-FROM maven:3.5.2-jdk-8-alpine AS MAVEN_TOOL_CHAIN
-COPY pom.xml /tmp/
-RUN mvn -B dependency:go-offline -f /tmp/pom.xml -s /usr/share/maven/ref/settings-docker.xml
-COPY src /tmp/src/
-WORKDIR /tmp/
-RUN mvn -B -s /usr/share/maven/ref/settings-docker.xml package
+# Pull official base image
+FROM node:17-alpine as build-deps
 
-FROM java:8-jre-alpine
+# A directory within the virtualized Docker environment
+# Becomes more relevant when using Docker Compose later
+WORKDIR /usr/src/app
 
+# Copies package.json and package-lock.json to Docker environment
+COPY package.json yarn.lock ./
+ 
+# Installs all node packages
+RUN npm install
+ 
+# Copies everything over to Docker environment
+COPY . ./
+
+# Installs all node packages
+RUN npm run build
+
+# the base image for this is an alpine based nginx image
+FROM nginx:mainline-alpine
+
+# copy the build folder from react to the root of nginx (www)
+COPY --from=build-deps /usr/src/app/build /usr/share/nginx/html
+
+# expose port 80 to the outer world
 EXPOSE 80
 
-RUN mkdir /app
-COPY --from=MAVEN_TOOL_CHAIN /tmp/target/*.jar /app/spring-boot-application.jar
-
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
-
-HEALTHCHECK --interval=1m --timeout=3s CMD wget -q -T 3 -s http://localhost:8080/actuator/health/ || exit 1
+# start nginx 
+CMD ["nginx", "-g", "daemon off;"]
