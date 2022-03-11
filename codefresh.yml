@@ -21,7 +21,7 @@ steps:
     title: Building Docker Image
     type: build
     stage: build
-    image_name: addteq-apac/addteq-apac
+    image_name: suhasw91/addteq-apac
     working_directory: ./
     tag: '${{CF_BUILD_TIMESTAMP}}'
     dockerfile: Dockerfile
