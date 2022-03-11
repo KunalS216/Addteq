@@ -25,4 +25,16 @@ steps:
     working_directory: ./
     tag: '${{CF_BUILD_TIMESTAMP}}'
     dockerfile: Dockerfile
-  
+  git_update:
+    title: manifests update in app-config
+    type: freestyle
+    stage: git_update
+    commands:
+      - git config user.email swagh@addteq.co.in
+      - git config user.name suhasw
+      - cat deployment.yaml
+      - sed -i 's+suhasw91/addteq-apac*+suhasw91/addteq-apac:${{CF_BUILD_TIMESTAMP}}+g' ./manifests/deployment.yaml
+      - cat deployment.yaml
+      - git add .
+      - git commit -m "Done by codefresh CI pipeline stage manifest update: ${{CF_PULL_REQUEST_ID}}"
+      - git push https://suhasw@bitbucket.org/suhasw/app-config.git HEAD:main
