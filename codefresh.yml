@@ -3,6 +3,7 @@ stages:
   - prepare
   - test
   - build
+  - git_update
 steps:
   main_clone:
     title: Cloning main repository..
