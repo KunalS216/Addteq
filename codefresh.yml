@@ -12,14 +12,11 @@ steps:
     revision: master
     git: bitbucket
   run_unit_tests:
-    title: Unit test
+    title: Compile/Unit test
     stage: test
-    image: node:8.16
+    image: 'maven:3.5.2-jdk-8-alpine'
     commands:
-      - yarn install
-      - yarn test
-    environment:
-      - CI=true
+      - mvn -Dmaven.repo.local=/codefresh/volume/m2_repository test      
   build_app_image:
     title: Building Docker Image
     type: build
