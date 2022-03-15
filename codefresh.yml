@@ -25,4 +25,16 @@ steps:
     working_directory: ./
     tag: '${{CF_BUILD_TIMESTAMP}}'
     dockerfile: Dockerfile
-  
+  push_changes:
+    title: update manifest files
+    image: alpine/git:latest
+    commands:
+      - git config user.email swagh@addteq.co.in"
+      - git config user.name suhasw
+      - git switch master"
+      - cat /manifests/deployment.yaml
+      - sed -i 's+suhasw91/addteq-apac.*+suhasw91/addteq-apac:${{CF_BUILD_TIMESTAMP}}+g' /manifests/deployment.yaml
+      - cat /manifests/deployment.yaml"
+      - git add ."
+      - git commit -m 'Done by codefresh Job changemanifest: ${{CF_REVISION}}'
+      - git push https://suhasw@bitbucket.org/suhasw/app-config.git HEAD:master
