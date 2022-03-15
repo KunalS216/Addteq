@@ -29,6 +29,7 @@ steps:
   push_changes:
     title: update manifest files
     image: alpine/git:latest
+    shell: sh
     commands:
       - git config user.email swagh@addteq.co.in"
       - git config user.name suhasw
