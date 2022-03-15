@@ -3,6 +3,7 @@ stages:
   - prepare
   - test
   - build
+  - push_changes
 steps:
   main_clone:
     title: Cloning main repository..
@@ -24,7 +25,6 @@ steps:
     image_name: suhasw91/addteq-apac
     working_directory: ./
     tag: '${{CF_BUILD_TIMESTAMP}}'
-<<<<<<< HEAD
     dockerfile: Dockerfile
   push_changes:
     title: update manifest files
@@ -39,6 +39,3 @@ steps:
       - git add ."
       - git commit -m 'Done by codefresh Job changemanifest: ${{CF_REVISION}}'
       - git push https://suhasw@bitbucket.org/suhasw/app-config.git HEAD:master
-=======
-    dockerfile: Dockerfile
->>>>>>> 8ecafc1fafed11b92f09dca85ac10cc46618e466
