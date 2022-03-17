@@ -26,13 +26,4 @@ steps:
     working_directory: ./
     tag: '${{CF_BUILD_TIMESTAMP}}'
     dockerfile: Dockerfile
-  JFrogPublishBuild:
-  type: jfrog-cli
-  arguments:
-    JFROG_HOST: swagh.jfrog.io
-    JFROG_USER: suhas
-    JFROG_ACCESS_TOKEN: 94b1c89c-cd41-4a30-8139-0a2ba1662e4e
-    JFROG_CLI_BUILD_NAME: addteq-apac
-    JFROG_CLI_BUILD_NUMBER: '${{CF_BUILD_ID}}'
-    JFROG_CLI_BUILD_URL: '${{CF_BUILD_URL}}'
 
