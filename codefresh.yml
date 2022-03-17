@@ -26,17 +26,13 @@ steps:
     working_directory: ./
     tag: '${{CF_BUILD_TIMESTAMP}}'
     dockerfile: Dockerfile
-  push_changes:
-    title: update manifest files
-    image: alpine/git:latest
-    shell: sh
-    commands:
-      - git config user.email swagh@addteq.co.in"
-      - git config user.name suhasw
-      - git switch master"
-      - cat /manifests/deployment.yaml
-      - sed -i 's+suhasw91/addteq-apac.*+suhasw91/addteq-apac:${{CF_BUILD_TIMESTAMP}}+g' /manifests/deployment.yaml
-      - cat /manifests/deployment.yaml"
-      - git add ."
-      - git commit -m 'Done by codefresh Job changemanifest: ${{CF_REVISION}}'
-      - git push https://suhasw@bitbucket.org/suhasw/app-config.git HEAD:master
+  JFrogPublishBuild:
+  type: jfrog-cli
+  arguments:
+    JFROG_HOST: '${{JFROG_HOST}}'
+    JFROG_USER: '${{JFROG_USER}}'
+    JFROG_ACCESS_TOKEN: '${{JFROG_ACCESS_TOKEN}}'
+    JFROG_CLI_BUILD_NAME: '${{CF_REPO_NAME}}'
+    JFROG_CLI_BUILD_NUMBER: '${{CF_BUILD_ID}}'
+    JFROG_CLI_BUILD_URL: '${{CF_BUILD_URL}}'
+
