@@ -3,7 +3,7 @@ stages:
   - prepare
   - test
   - build
-  - push_changes
+  - JFrogPublishBuild
 steps:
   main_clone:
     title: Cloning main repository..
